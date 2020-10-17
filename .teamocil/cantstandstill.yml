@@ -1,0 +1,25 @@
+name: "cantstandstill"
+windows:
+  - name: "cantstandstill"
+    root: "~/code/cant-stand-still-react"  
+    layout: tiled
+    panes:
+      - commands:
+          - cd api
+          - ./bin/rails server -p 3005
+      - commands:
+          - cd frontend
+          - fnm use 12	
+          - yarn dev -p 4000
+      - commands:
+          - cd api
+          - fnm use 12
+          - bundle exec sidekiq
+      - commands:
+          - cd frontend
+          - fnm use 12
+          - yarn test	
+      - commands:
+          - fnm use 12
+          - git status
+        focus: true

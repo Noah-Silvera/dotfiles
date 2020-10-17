@@ -1,0 +1,17 @@
+name: "onefeather"
+windows:
+  - name: "onefeather"
+    root: "~/code/one_feather"  
+    layout: tiled
+    panes:
+      - commands:
+          - fnm use 10
+          - ./bin/rails server
+      - commands:
+          - fnm use 10	
+          - bundle exec sidekiq	
+      - "./bin/webpack-dev-server"
+      - commands:
+          - git status
+        focus: true
+

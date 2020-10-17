@@ -1,0 +1,17 @@
+name: "smartballot"
+windows:
+  - name: "smartballot"
+    root: "~/code/smartballot"  
+    layout: tiled
+    panes:
+      - commands:
+          - fnm use 12
+          - ./bin/rails server -p 3002
+      - commands:
+          - fnm use 12	
+          - bundle exec sidekiq	
+      - "./bin/webpack-dev-server"
+      - commands:
+          - git status
+        focus: true
+
