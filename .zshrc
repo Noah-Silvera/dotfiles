@@ -19,11 +19,15 @@ alias grbim='git rebase -i origin/master'
 alias grbc='git rebase --continue'
 alias grbca='git add . && grbc'
 alias grba='git rebase --abort'
+alias grbe='git rebase --edit-todo'
 alias gitfix='git add . && git commit --amend --no-edit'
 alias gitundo='git reset HEAD~1'
 alias gitpop='git stash pop'
 alias gittuck='git add . && git stash -u'
 alias gittucktest='git add . && git stash -k -u'
+alias gita='git commit --amend'
+alias gittmp='git commit -am "tmp"'
+alias gitane='gita --no-edit'
 alias gc='git checkout'
 alias gcb='gc -b'
 alias gp='git pull'
@@ -39,8 +43,8 @@ alias deaddove='tmux kill-session -t onefeather'
 alias bikecrash='tmux kill-session -t cantstandstill'
 alias leaky="pkill -9 -f 'rb-fsevent|rails|puma|node'"
 alias bxr="bundle exec"
-alias test="bundle exec rspec --only-failures "
-alias test_all="bundle exec rspec"
+alias nt="bundle exec rspec --only-failures --fail-fast"
+alias at="bundle exec rspec"
 alias br="./bin/rails"
 alias shortcuts="nano ~/.zshrc && badabing"
 alias secretsauce="EDITOR="nano" bin/rails credentials:edit"
@@ -63,4 +67,8 @@ function onefeather_staging_console() {
 
 function onefeather_prod() {
   heroku run $1 --app onefeather
+}
+
+function grbi() { 
+  git rebase -i origin/$1
 }
