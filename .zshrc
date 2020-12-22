@@ -97,7 +97,7 @@ function test_commit() {
 }
 
 function test_branch() {
-  commits=$(gfcommits)
+  commits=$(gfcommits --reverse)
 
   while IFS= read -r line; do
     echo "Testing commit $line"
