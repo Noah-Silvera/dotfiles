@@ -1,5 +1,5 @@
 source /usr/local/share/chruby/chruby.sh
-source /usr/local/share/chruby/auto.sh 
+source /usr/local/share/chruby/auto.sh
 tmux source ~/.tmux.conf
 PATH="/usr/local/opt/sqlite/bin:$PATH"
 eval "$(fnm env --multi)"
@@ -33,6 +33,7 @@ alias gcb='gc -b'
 alias gp='git pull'
 alias gf='git fetch'
 alias gitpf='git push --force-with-lease origin $(git branch --show-current)'
+alias gfcommits='git log --pretty=%H master..HEAD'
 alias gitbs='git bisect start'
 alias gitbrr='git bisect reset'
 alias ggood='git bisect good'
@@ -73,7 +74,7 @@ function onefeather_prod() {
   heroku run $1 --app onefeather
 }
 
-function grbi() { 
+function grbi() {
   git rebase -i origin/$1
 }
 
@@ -81,6 +82,34 @@ function show_changed() {
   git show --pretty="" --name-only $1
 }
 
+function show_changed_specs() {
+  show_changed $1 | rg spec
+}
+
 function test_commit() {
-  at $(show_changed $1 | rg spec)
+  changed_specs=$(show_changed_specs $1)
+
+  if [ -z "$changed_specs" ]
+  then
+  else
+    at $changed_specs
+  fi
+}
+
+function test_branch() {
+  commits=$(gfcommits)
+
+  while IFS= read -r line; do
+    echo "Testing commit $line"
+    changed_specs=$(show_changed_specs $line)
+    if [ -z "$changed_specs" ]; then
+      echo "No specs changed in commit"
+      continue
+    fi
+    echo "Running specs\n$changed_specs\n"
+    if test_commit $line; then
+    else
+      break
+    fi
+  done <<< "$commits"
 }
