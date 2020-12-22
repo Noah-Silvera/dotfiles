@@ -76,3 +76,11 @@ function onefeather_prod() {
 function grbi() { 
   git rebase -i origin/$1
 }
+
+function show_changed() {
+  git show --pretty="" --name-only $1
+}
+
+function test_commit() {
+  at $(show_changed $1 | rg spec)
+}
