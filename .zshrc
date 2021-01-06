@@ -57,6 +57,11 @@ alias secretsauce="EDITOR="nano" bin/rails credentials:edit"
 alias branch_test_changes="git diff --name-only master HEAD | grep spec"
 alias stash_smash="gitpop && gitfix"
 alias fix_next="--next-failure"
+alias tc="test_commit"
+alias twt="at $(git diff --name-only | rg spec | tr '\n' ' ')"
+alias sc="show_changed"
+alias scs="show_changed_specs"
+alias rnginx="sudo nginx -s stop && sudo nginx"
 
 function killer() {
   kill -9 $(ps aux | fzy | gawk '{print$2}')
@@ -83,7 +88,7 @@ function show_changed() {
 }
 
 function show_changed_specs() {
-  show_changed $1 | rg spec
+  show_changed $1 | rg spec | tr '\n' ' '
 }
 
 function test_commit() {
@@ -92,7 +97,7 @@ function test_commit() {
   if [ -z "$changed_specs" ]
   then
   else
-    at $changed_specs
+    at $(show_changed_specs $1)
   fi
 }
 
